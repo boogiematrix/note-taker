@@ -24,10 +24,16 @@ app.post('/api/notes', (req, res) => {
     newNote.id = uniqid();
     database.push(newNote);
     res.json(newNote);
+    console.log(database)
 });
 
-app.delete('/api/notes', (req, res) => {
-    
+app.delete('/api/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+    const noteIndex = database.findIndex((note) => {
+        note.id === noteId;
+    });
+    database.splice(noteIndex, 1);
+    res.send()
 })
 
 
