@@ -20,7 +20,12 @@ app.get('/api/notes', (req, res) => {
 })
 
 app.get('/api/notes:id', (req, res) => {
-
+    const noteId = req.params.id;
+    for (let i = 0; i < database.length; i++) {
+        if (database[i].id === noteId) {
+            res.json(database[i])
+        }
+    }
 })
 
 app.post('/api/notes', (req, res) => {
