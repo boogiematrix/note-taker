@@ -19,6 +19,10 @@ app.get('/api/notes', (req, res) => {
     res.json(database)
 })
 
+app.get('/api/notes:id', (req, res) => {
+
+})
+
 app.post('/api/notes', (req, res) => {
     const newNote = req.body;
     newNote.id = uniqid();
@@ -29,11 +33,14 @@ app.post('/api/notes', (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
     const noteId = req.params.id;
-    const noteIndex = database.findIndex((note) => {
-        note.id === noteId;
-    });
+    var noteIndex
+    for (let i = 0; i < database.length; i++) {
+        if (database[i].id === noteId) {
+            noteIndex = i
+        }
+    }
     database.splice(noteIndex, 1);
-    res.send()
+    res.status(204).send()
 })
 
 
