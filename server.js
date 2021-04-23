@@ -6,15 +6,14 @@ const uniqid = require('uniqid');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-//app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static('public'))
-
+//html routes
 app.get('/', (req, res) => res.redirect('/index.html'));
 
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
-
+//data routes
 app.get('/api/notes', (req, res) => {
     res.json(database)
 })
@@ -29,11 +28,15 @@ app.get('/api/notes:id', (req, res) => {
 })
 
 app.post('/api/notes', (req, res) => {
-    const newNote = req.body;
-    newNote.id = uniqid();
-    database.push(newNote);
-    res.json(newNote);
-    console.log(database)
+    if (req.body) {
+        const newNote = req.body;
+        newNote.id = uniqid();
+        database.push(newNote);
+        res.json(newNote);
+    } else {
+        res.status(404).send()
+    }
+    
 });
 
 app.delete('/api/notes/:id', (req, res) => {
