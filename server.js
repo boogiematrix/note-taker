@@ -9,8 +9,6 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 app.use(express.static('public'))
-//html routes
-app.get('/', (req, res) => res.redirect('/index.html'));
 
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 //data routes
@@ -51,5 +49,7 @@ app.delete('/api/notes/:id', (req, res) => {
     res.status(204).send()
 })
 
+//html routes
+app.get('*', (req, res) => res.redirect('/index.html'));
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
