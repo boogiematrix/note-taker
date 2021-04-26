@@ -9,13 +9,15 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 app.use(express.static('public'))
-
+// notes page route
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
+
 //data routes
 app.get('/api/notes', (req, res) => {
     res.json(database)
 })
 
+// gets a specific note based on id
 app.get('/api/notes:id', (req, res) => {
     const noteId = req.params.id;
     for (let i = 0; i < database.length; i++) {
@@ -25,6 +27,7 @@ app.get('/api/notes:id', (req, res) => {
     }
 })
 
+// route for posting a note
 app.post('/api/notes', (req, res) => {
     if (req.body) {
         const newNote = req.body;
@@ -37,6 +40,7 @@ app.post('/api/notes', (req, res) => {
     
 });
 
+// route for deleting a note
 app.delete('/api/notes/:id', (req, res) => {
     const noteId = req.params.id;
     var noteIndex
@@ -49,7 +53,7 @@ app.delete('/api/notes/:id', (req, res) => {
     res.status(204).send()
 })
 
-//html routes
+//home page route
 app.get('*', (req, res) => res.redirect('/index.html'));
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
