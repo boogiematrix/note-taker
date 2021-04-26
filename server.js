@@ -33,6 +33,9 @@ app.post('/api/notes', (req, res) => {
         const newNote = req.body;
         newNote.id = uniqid();
         database.push(newNote);
+        fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(database), (err) => {
+            if (err) throw err;
+        })
         res.json(newNote);
     } else {
         res.status(404).send()
@@ -50,6 +53,9 @@ app.delete('/api/notes/:id', (req, res) => {
         }
     }
     database.splice(noteIndex, 1);
+    fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(database), (err) => {
+        if (err) throw err;
+    })
     res.status(204).send()
 })
 
